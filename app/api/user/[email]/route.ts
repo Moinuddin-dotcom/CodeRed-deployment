@@ -1,6 +1,6 @@
 import dbConnect, { collectionNameObj } from "@/lib/dbConnect";import { NextResponse } from "next/server";
 
-export async function PATCH(req: Request, { params }) {
+export async function PATCH(req: Request) {
   const { user_photo } = await req.json();
   const url = new URL(req.url);
   const email = url.pathname.split("/")[3];
