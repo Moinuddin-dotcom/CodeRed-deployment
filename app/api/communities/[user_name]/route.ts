@@ -1,9 +1,14 @@
-import { NextRequest, NextResponse } from "next/server";
+// import { NextRequest, NextResponse } from "next/server";
 import dbConnect, { collectionNameObj } from "@/lib/dbConnect";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(req: NextRequest, context: { params: { user_name: string } }) {
-  const { user_name } = context.params;
-  console.log(user_name, "user_name");
+type Params = {
+  params: {
+    user_name: string;
+  };
+};
+export async function GET(req: NextRequest, { params }: Params) {
+  const { user_name } = params;
 
   const communityCollection = await dbConnect(collectionNameObj.communityCollection);
 
@@ -121,8 +126,8 @@ export async function GET(req: NextRequest, context: { params: { user_name: stri
   return NextResponse.json(result);
 }
 
-export async function PATCH(req: NextRequest, context: { params: { user_name: string } }) {
-  const { user_name } = context.params;
+export async function PATCH(req: NextRequest, { params }: Params) {
+  const { user_name } = params;
   const { member } = await req.json();
 
   const groupMemberCollection = await dbConnect(collectionNameObj.groupMemberCollection);
@@ -135,8 +140,8 @@ export async function PATCH(req: NextRequest, context: { params: { user_name: st
   return NextResponse.json(result);
 }
 
-export async function DELETE(req: NextRequest, context: { params: { user_name: string } }) {
-  const { user_name } = context.params;
+export async function DELETE(req: NextRequest, { params }: Params) {
+  const { user_name } = params;
   const url = new URL(req.url);
   const member = req.headers.get("member") || url.searchParams.get("member");
 
