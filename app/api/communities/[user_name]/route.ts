@@ -1,13 +1,10 @@
-// import { NextRequest, NextResponse } from "next/server";
 import dbConnect, { collectionNameObj } from "@/lib/dbConnect";
 import { NextRequest, NextResponse } from "next/server";
 
-type Params = {
-  params: {
-    user_name: string;
-  };
-};
-export async function GET(req: NextRequest, { params }: Params) {
+export async function GET(
+  req: NextRequest,
+  { params }: { params: { user_name: string } }
+) {
   const { user_name } = params;
 
   const communityCollection = await dbConnect(collectionNameObj.communityCollection);
@@ -126,21 +123,26 @@ export async function GET(req: NextRequest, { params }: Params) {
   return NextResponse.json(result);
 }
 
-export async function PATCH(req: NextRequest, { params }: Params) {
+export async function PATCH(
+  req: NextRequest,
+  { params }: { params: { user_name: string } }
+) {
   const { user_name } = params;
   const { member } = await req.json();
 
   const groupMemberCollection = await dbConnect(collectionNameObj.groupMemberCollection);
-  const result = await groupMemberCollection.updateOne({ member, user_name }, {
-    $set: {
-      accessibility: "Member"
-    }
-  });
+  const result = await groupMemberCollection.updateOne(
+    { member, user_name },
+    { $set: { accessibility: "Member" } }
+  );
 
   return NextResponse.json(result);
 }
 
-export async function DELETE(req: NextRequest, { params }: Params) {
+export async function DELETE(
+  req: NextRequest,
+  { params }: { params: { user_name: string } }
+) {
   const { user_name } = params;
   const url = new URL(req.url);
   const member = req.headers.get("member") || url.searchParams.get("member");
