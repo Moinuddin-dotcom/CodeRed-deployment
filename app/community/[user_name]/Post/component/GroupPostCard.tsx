@@ -28,8 +28,8 @@ export default function GroupPostCard() {
       </div>
 
       <div className="mt-4 text-gray-700">
-        I'm thrilled to share that I've completed a graduate certificate course
-        in project management with the president's honor roll.
+        I&#39;m thrilled to share that I&#39;ve completed a graduate certificate course
+        in project management with the president&#39;s honor roll.
       </div>
 
       <div className="mt-4 rounded-lg overflow-hidden">

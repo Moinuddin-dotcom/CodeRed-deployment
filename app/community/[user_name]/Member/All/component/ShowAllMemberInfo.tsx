@@ -2,7 +2,7 @@ import Image from "next/image";
 import ShowMember from "./ShowMember";
 import ShowAllAdmin from "./ShowAllAdmin";
 
-function ShowAllMemberInfo({ data, isLoading, refetch }) {
+function ShowAllMemberInfo({ data, refetch }) {
   console.log(data[0], "show data");
   const members = data[0];
   return (

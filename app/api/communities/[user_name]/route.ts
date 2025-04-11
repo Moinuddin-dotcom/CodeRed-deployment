@@ -5,7 +5,8 @@ export async function GET({ params }: { params: { user_name: string } }) {
   const { user_name } = await params;
   console.log(user_name, "user_name")
   const communityCollection = await dbConnect(collectionNameObj.communityCollection)
-  const data = await communityCollection.findOne({ user_name })
+  // const data = 
+  await communityCollection.findOne({ user_name })
   //   
 
 
