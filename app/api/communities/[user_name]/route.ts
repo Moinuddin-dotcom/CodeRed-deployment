@@ -3,9 +3,9 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { user_name: string } }
+  context: { params: { user_name: string } }
 ) {
-  const { user_name } = params;
+  const { user_name } = context.params;
 
   const communityCollection = await dbConnect(collectionNameObj.communityCollection);
 
@@ -125,9 +125,9 @@ export async function GET(
 
 export async function PATCH(
   req: NextRequest,
-  { params }: { params: { user_name: string } }
+  context: { params: { user_name: string } }
 ) {
-  const { user_name } = params;
+  const { user_name } = context.params;
   const { member } = await req.json();
 
   const groupMemberCollection = await dbConnect(collectionNameObj.groupMemberCollection);
@@ -141,9 +141,9 @@ export async function PATCH(
 
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { user_name: string } }
+  context: { params: { user_name: string } }
 ) {
-  const { user_name } = params;
+  const { user_name } = context.params;
   const url = new URL(req.url);
   const member = req.headers.get("member") || url.searchParams.get("member");
 
