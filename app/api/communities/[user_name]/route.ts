@@ -1,19 +1,14 @@
+import { NextRequest, NextResponse } from "next/server";
 import dbConnect, { collectionNameObj } from "@/lib/dbConnect";
-import { NextResponse } from "next/server";
 
-export async function GET({ params }: { params: { user_name: string } }) {
-  const { user_name } = await params;
-  console.log(user_name, "user_name")
-  const communityCollection = await dbConnect(collectionNameObj.communityCollection)
-  // const data = 
-  await communityCollection.findOne({ user_name })
-  //   
+export async function GET(req: NextRequest, context: { params: { user_name: string } }) {
+  const { user_name } = context.params;
+  console.log(user_name, "user_name");
 
+  const communityCollection = await dbConnect(collectionNameObj.communityCollection);
 
   const result = await communityCollection.aggregate([
-    {
-      $match: { user_name: user_name }
-    },
+    { $match: { user_name } },
     {
       $lookup: {
         from: "groupMember",
@@ -114,41 +109,39 @@ export async function GET({ params }: { params: { user_name: string } }) {
         description: 1,
         email: 1,
         user_name: 1,
-        "Owner": "$Owner",
-        "All_Admin": "$Admin",
-        "Invited_members": "$invited",
-        "All_Member": "$all_Member",
-        "Request_members": "$request"
+        Owner: 1,
+        All_Admin: "$Admin",
+        Invited_members: "$invited",
+        All_Member: "$all_Member",
+        Request_members: "$request"
       }
     }
-  ]
-  ).toArray();
+  ]).toArray();
 
-  // console.log(result)
-  return NextResponse.json(result)
+  return NextResponse.json(result);
 }
 
+export async function PATCH(req: NextRequest, context: { params: { user_name: string } }) {
+  const { user_name } = context.params;
+  const { member } = await req.json();
 
-export async function PATCH(req: Request, { params }: { params: { user_name: string } }) {
-  const { member } = await req.json()
-  const { user_name } = await params
-  console.log(user_name, member)
-  const groupMemberCollection = await dbConnect(collectionNameObj.groupMemberCollection)
+  const groupMemberCollection = await dbConnect(collectionNameObj.groupMemberCollection);
   const result = await groupMemberCollection.updateOne({ member, user_name }, {
     $set: {
       accessibility: "Member"
     }
-  })
-  return NextResponse.json(result)
+  });
+
+  return NextResponse.json(result);
 }
 
+export async function DELETE(req: NextRequest, context: { params: { user_name: string } }) {
+  const { user_name } = context.params;
+  const url = new URL(req.url);
+  const member = req.headers.get("member") || url.searchParams.get("member");
 
-export async function DELETE(req: Request, { params }: { params: { user_name: string } }) {
-  const { user_name } = await params                    // from dynamic route
-  const member = req.headers.get("member") || req.nextUrl.searchParams.get("member")
-  const groupMemberCollection = await dbConnect(collectionNameObj.groupMemberCollection)
-  const result = groupMemberCollection.deleteOne({ user_name, member })
-  console.log(result)
-  return NextResponse.json(result)
+  const groupMemberCollection = await dbConnect(collectionNameObj.groupMemberCollection);
+  const result = await groupMemberCollection.deleteOne({ user_name, member });
 
+  return NextResponse.json(result);
 }
