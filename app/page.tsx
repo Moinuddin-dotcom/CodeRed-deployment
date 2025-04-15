@@ -23,7 +23,7 @@ export default function Home() {
       {/* Center Section (Scrollable) */}
       <HomeCenter />
 
-     
+
 
       {/* Right Section (Hidden on small & medium screens) */}
       <HomeRight />
