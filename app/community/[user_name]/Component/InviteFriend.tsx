@@ -94,8 +94,8 @@ function InviteFriend() {
                       <div
                         key={index}
                         className={`p-2 hover:bg-gray-100 cursor-pointer flex items-center justify-between ${selectedFriends.includes(friend.name)
-                            ? "bg-gray-200"
-                            : ""
+                          ? "bg-gray-200"
+                          : ""
                           }`}
                         onClick={() => handleSelect(friend.name)}
                       >

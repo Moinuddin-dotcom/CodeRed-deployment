@@ -3,11 +3,12 @@ import { Poppins } from "next/font/google";
 import "./globals.css";
 // import Navbar from "@/components/Navbar";
 import { Toaster } from "react-hot-toast";
-// import SessionWrapper from "@/Providers/SessionWrapper";
+import SessionWrapper from "@/Providers/SessionWrapper";
 import LayoutWrapper from "@/components/LayoutWrapper/LayoutWrapper";
 import QueryProvider from "@/Providers/QueryProvider";
 import FloatingButton from "./code-editor/components/FloatingButton";
-import AuthProvider from "@/Providers/AuthProvider";
+// import { SessionProvider } from "next-auth/react";
+// import AuthProvider from "@/Providers/AuthProvider";
 
 
 const poppins = Poppins({
@@ -29,8 +30,9 @@ export default function RootLayout({
     <html lang="en" data-theme='light'>
       <body
         className={`${poppins.className} antialiased `}>
-        {/* <SessionWrapper> */}
-        <AuthProvider>
+        {/* <SessionProvider> */}
+          <SessionWrapper>
+          {/* <AuthProvider> */}
           <QueryProvider>
             <Toaster />
             {/* <Navbar /> */}
@@ -41,8 +43,9 @@ export default function RootLayout({
               </LayoutWrapper>
             </div>
           </QueryProvider>
-        </AuthProvider>
-        {/* </SessionWrapper> */}
+          {/* </AuthProvider> */}
+          </SessionWrapper>
+        {/* </SessionProvider> */}
       </body>
     </html>
   );

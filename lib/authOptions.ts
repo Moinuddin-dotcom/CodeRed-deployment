@@ -78,7 +78,7 @@ export const authOptions = {
         }
       }
 
-      return true; // Allow sign-in
+      return true; 
     },
   },
 };
